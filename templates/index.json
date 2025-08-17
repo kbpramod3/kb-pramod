@@ -12,6 +12,22 @@
     "hero_jVaWmY": {
       "type": "hero",
       "blocks": {
+        "custom_button_BkgJGq": {
+          "type": "custom-button",
+          "name": "Custom Button",
+          "settings": {
+            "label": "choose gift",
+            "link": "shopify://collections/all",
+            "open_in_new_tab": false,
+            "style_class": "custom-btn",
+            "arrow": "shopify://shop_images/Arrow_1.svg",
+            "width": "fit-content",
+            "custom_width": 100,
+            "width_mobile": "fit-content",
+            "custom_width_mobile": 100
+          },
+          "blocks": {}
+        },
         "button_9njQWQ": {
           "type": "button",
           "name": "t:names.button",
@@ -70,6 +86,7 @@
         }
       },
       "block_order": [
+        "custom_button_BkgJGq",
         "button_9njQWQ",
         "text_YLPk4p",
         "button_H9gpTf"
