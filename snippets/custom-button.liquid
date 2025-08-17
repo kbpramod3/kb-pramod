@@ -1,11 +1,7 @@
 {%- doc -%}
-  Intended for use in a block similar to the button block.
-
-  @param {string} link - link to render
-  @param {object} [block] - The block
-
-  @example
-  {% render 'button', link: '/collections/all' %}
+  Custom Button with Arrow
+  @param {string} link - The URL
+  @param {object} [block] - The block settings
 {%- enddoc -%}
 
 {% assign block_settings = block.settings %}
@@ -18,7 +14,7 @@
     href="{{ link }}"
   {% endif %}
   class="
-    size-style
+    custom-btn
     {{ block_settings.style_class }}
     {{ block_settings.style_class }}--{{ block.id }}
   "
@@ -29,17 +25,48 @@
   {%- endif -%}
   {{ block.shopify_attributes }}
 >
-  {{ block_settings.label }}
+  <span>{{ block_settings.label }}</span>
+
+  {% if block_settings.arrow != blank %}
+    <img 
+      src="{{ block_settings.arrow | img_url: '50x' }}" 
+      alt="arrow" 
+      class="arrow-img"
+    />
+  {% else %}
+    <img 
+      src="{{ 'arrow.svg' | asset_url }}" 
+      alt="arrow" 
+      class="arrow-img"
+    />
+  {% endif %}
 </a>
 
 {% stylesheet %}
-  .link {
+  .custom-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    background-color: #fff04c;
+    color: #000;
+    font-size: 16px;
+    font-weight: 500;
     text-decoration: none;
-    text-decoration-color: currentcolor;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
 
-    &:hover {
-      color: var(--color-primary-hover);
-      text-decoration-color: transparent;
-    }
+  .custom-btn:hover {
+    background-color: #ffe933;
+  }
+
+  .arrow-img {
+    width: 20px;
+    transition: transform 0.3s ease;
+  }
+
+  .custom-btn:hover .arrow-img {
+    transform: translateX(4px);
   }
 {% endstylesheet %}
