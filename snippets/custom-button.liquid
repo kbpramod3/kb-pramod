@@ -1,11 +1,3 @@
-{%- doc -%}
-  Custom Button with Arrow
-  @param {string} link - The URL
-  @param {object} [block] - The block settings
-{%- enddoc -%}
-
-{% assign block_settings = block.settings %}
-
 <a
   {% if link == blank %}
     role="link"
@@ -27,13 +19,15 @@
 >
   <span>{{ block_settings.label }}</span>
 
-  {% if block_settings.style_class == "primary" %}
-    <img src="{{ 'icon-arrow-right.svg' | asset_url }}" alt="arrow" class="arrow default-arrow" width="100%" height="100%"/>
-    <img src="{{ 'icon-arrow-right-white.svg' | asset_url }}" alt="arrow" class="arrow hover-arrow" width="100%" height="100%"/>
-  {% else %}
-    <img src="{{ 'icon-arrow-right-white.svg' | asset_url }}" alt="arrow" class="arrow default-arrow" width="100%" height="100%"/>
-    <img src="{{ 'icon-arrow-right.svg' | asset_url }}" alt="arrow" class="arrow hover-arrow" width="100%" height="100%"/>
-  {% endif %}
+  <span class="arrow-wrapper">
+    {% if block_settings.style_class == "primary" %}
+      <img src="{{ 'icon-arrow-right.svg' | asset_url }}" alt="arrow" class="arrow default-arrow" width="25" height="21" />
+      <img src="{{ 'icon-arrow-right-white.svg' | asset_url }}" alt="arrow" class="arrow hover-arrow" width="25" height="21" />
+    {% else %}
+      <img src="{{ 'icon-arrow-right-white.svg' | asset_url }}" alt="arrow" class="arrow default-arrow" width="25" height="21" />
+      <img src="{{ 'icon-arrow-right.svg' | asset_url }}" alt="arrow" class="arrow hover-arrow" width="25" height="21" />
+    {% endif %}
+  </span>
 </a>
 
 {% stylesheet %}
@@ -55,13 +49,23 @@
     transition: color 0.3s ease;
   }
 
+  .arrow-wrapper {
+    display: inline-block;
+    position: relative;
+    width: 25px;
+    height: 21px;
+  }
+
   .custom-btn .arrow {
     width: 25px;
     height: 21px;
-    transition: transform 0.3s ease, opacity 0.3s ease;
-  }
-  .custom-btn .hover-arrow {
     position: absolute;
+    top: 0;
+    left: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .custom-btn .hover-arrow {
     opacity: 0;
   }
   .custom-btn:hover .default-arrow {
