@@ -26,7 +26,14 @@
   {{ block.shopify_attributes }}
 >
   <span>{{ block_settings.label }}</span>
-  <span class="arrow"></span>
+
+  {%- if block_settings.style_class == "primary" -%}
+    <span class="arrow" 
+          style="background-image: url('{{ 'icon-arrow-right.svg' | asset_url }}')"></span>
+  {%- else -%}
+    <span class="arrow" 
+          style="background-image: url('{{ 'icon-arrow-right-white.svg' | asset_url }}')"></span>
+  {%- endif -%}
 </a>
 
 {% stylesheet %}
@@ -53,7 +60,7 @@
     height: 20px;
     background-size: contain;
     background-repeat: no-repeat;
-    transition: transform 0.3s ease;
+    transition: transform 0.3s ease, background-image 0.3s ease;
   }
 
   .custom-btn:hover .arrow {
@@ -64,29 +71,17 @@
     background-color: #FFF544;
     color: #000000;
   }
-  .custom-btn.primary .arrow {
-    background-image: url('{{ "icon-arrow-right.svg" | asset_url }}');
-  }
   .custom-btn.primary:hover {
     background-color: #000000;
     color: #ffffff;
-  }
-  .custom-btn.primary:hover .arrow {
-    background-image: url('{{ "icon-arrow-right-white.svg" | asset_url }}');
   }
 
   .custom-btn.secondary {
     background-color: #000000;
     color: #ffffff;
   }
-  .custom-btn.secondary .arrow {
-    background-image: url('{{ "icon-arrow-right-white.svg" | asset_url }}');
-  }
   .custom-btn.secondary:hover {
     background-color: #FFF544;
     color: #000000;
-  }
-  .custom-btn.secondary:hover .arrow {
-    background-image: url('{{ "icon-arrow-right.svg" | asset_url }}');
   }
 {% endstylesheet %}
