@@ -1,0 +1,110 @@
+<div
+  class="custom-header spacing-style section section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme }}"
+  style="{% render 'spacing-padding', settings: section.settings %}; --border-bottom-width: {{ section.settings.divider_width }}px;"
+>
+  <div class="custom-header__inner">
+    {% for block in section.blocks %}
+      {% render block %}
+    {% endfor %}
+  </div>
+</div>
+
+{% stylesheet %}
+  .custom-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-block-end: var(--border-bottom-width) solid var(--color-border);
+    padding: 20px;
+    background_color: #F5F5F5;
+  }
+
+  .custom-header__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    gap: 20px;
+  }
+  
+  .custom-header__inner > * {
+    flex: 0 0 auto;
+  }
+
+  .custom-header__logo img {
+    max-height: 50px;
+    display: block;
+  }
+
+  .custom-header__announcement {
+    flex: 1;
+    text-align: center;
+  }
+
+  .custom-header__announcement p {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 500;
+  }
+
+  .custom-header__button a {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 14px;
+    border-radius: 4px;
+    text-decoration: none;
+    background: var(--color-button-bg, #000);
+    color: var(--color-button-text, #fff);
+  }
+{% endstylesheet %}
+
+
+
+{% schema %}
+{
+  "name": "Custom Header",
+  "blocks": [
+    { "type": "logo" },
+    { "type": "text" },
+    { "type": "custom-button" }
+  ],
+  "settings": [
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section width",
+      "options": [
+        { "value": "page-width", "label": "Page width" },
+        { "value": "full-width", "label": "Full width" }
+      ],
+      "default": "page-width"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "default": "scheme-1",
+      "label": "Color scheme"
+    },
+    {
+      "type": "range",
+      "id": "divider_width",
+      "label": "Divider thickness",
+      "min": 0,
+      "max": 5,
+      "step": 0.5,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom Header",
+      "blocks": [
+        { "type": "logo" },
+        { "type": "text" },
+        { "type": "custom-button" }
+      ]
+    }
+  ]
+}
+{% endschema %}
