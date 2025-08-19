@@ -35,8 +35,18 @@
     <form class="variant-picker__form">
       {%- for product_option in product_resource.options_with_values -%}
         {%- liquid
-          assign swatch_count = product_option.values | map: 'swatch' | compact | size
-          assign variant_style = block_settings.variant_style
+          assign option_name_downcase = product_option.name | downcase
+
+            if option_name_downcase == 'color'
+              assign variant_style = 'buttons'
+            elsif option_name_downcase == 'size'
+              assign variant_style = 'dropdowns'
+            else
+              assign variant_style = block_settings.variant_style
+            endif
+
+            assign swatch_count = product_option.values | map: 'swatch' | compact | size
+
 
           if swatch_count > 0 and block_settings.show_swatches
             if block_settings.variant_style == 'dropdown'
@@ -53,7 +63,38 @@
           endif
         -%}
 
-        {%- if variant_style == 'swatch' or block_settings.variant_style == 'buttons' -%}
+        {%- if option_name_downcase == 'color' -%}
+    <!-- ✅ Custom Color Buttons -->
+    <fieldset
+      class="variant-option variant-option--buttons"
+      {{ option_id_attribute }}
+    >
+      <legend>
+        {{ product_option.name | escape }}
+      </legend>
+      <div class="color-options">
+        {%- for product_option_value in product_option.values -%}
+          <label class="color-btn{% if product_option_value.selected %} selected{% endif %}">
+            <input
+              type="radio"
+              name="{{ product_option.name | escape }}-{{ block.id }}-{{ product_resource.id }}"
+              value="{{ product_option_value | escape }}"
+              data-option-value-id="{{ product_option_value.id }}"
+              data-connected-product-url="{{ product_option_value.product_url }}"
+              {% if product_option_value.variant.id %}
+                data-variant-id="{{ product_option_value.variant.id }}"
+              {% endif %}
+              {% if product_option_value.available == false %} disabled {% endif %}
+              {% if product_option_value.selected %} checked {% endif %}
+            >
+            <span class="color-swatch" style="background: {{ product_option_value | escape }}"></span>
+            <span class="color-label">{{ product_option_value | escape }}</span>
+          </label>
+        {%- endfor -%}
+      </div>
+    </fieldset>
+
+        {%- elsif variant_style == 'swatch' or variant_style == 'buttons' -%}
           <fieldset
             class="variant-option variant-option--buttons{% if variant_style == 'swatch' %} variant-option--swatches{% else %} variant-option--{{ settings.variant_button_width }}{% endif %}"
             {{ option_id_attribute }}
@@ -118,7 +159,7 @@
               {% endstyle %}
             {% endif %}
           </fieldset>
-        {%- elsif block_settings.variant_style == 'dropdowns' -%}
+        {%- elsif variant_style == 'dropdowns' -%}
           {%
             # There is an opportunity to build a custom select component that will allow us to style the select element further (animation for dropdown, swatches shown in the dropdown options, etc)
             # It's too bad as it mean rebuilding baked in behaviours but I think we've already done that for the locale selectors
@@ -167,6 +208,7 @@
                   </option>
                 {%- endfor -%}
               </select>
+              <span class="divider"></span>
               <svg
                 aria-hidden="true"
                 focusable="false"
@@ -228,6 +270,72 @@
       justify-content: var(--product-swatches-alignment-mobile);
     }
   }
+
+  /* Wrapper for color buttons */
+.variant-option--buttons .color-options {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+/* Each button label */
+.variant-option--buttons .color-btn {
+  position: relative;
+  display: flex;
+  flex: 1;
+  align-items: center;
+  border: 1px solid #ccc;
+  background: #fff;
+  cursor: pointer;
+  overflow: hidden;
+  min-width: 120px;
+  height: 40px;
+  {% comment %} transition: border-color 0.2s, box-shadow 0.2s; {% endcomment %}
+
+}
+
+/* Hide radio input */
+.variant-option--buttons .color-btn input {
+  display: none;
+}
+
+/* Left color bar */
+.variant-option--buttons .color-swatch {
+  width: 12px;
+  height: 100%;
+  flex-shrink: 0;
+}
+
+/* Text label */
+.variant-option--buttons .color-label {
+  flex: 1;
+  text-align: center;
+  padding: 0 10px;
+  font-size: 14px;
+  color: #000;
+  line-height: 1;
+  background: #fff;
+  {% comment %} transition: background 0.2s, color 0.2s; {% endcomment %}
+}
+
+/* Hover effect */
+.variant-option--buttons .color-btn:hover {
+  border-color: #000;
+}
+
+/* Selected state */
+.variant-option--buttons .color-btn.selected,
+.variant-option--buttons .color-btn input:checked + .color-swatch + .color-label {
+  border-color: #000;
+  background: #000;
+}
+
+.variant-option--buttons .color-btn.selected .color-label,
+.variant-option--buttons .color-btn input:checked + .color-swatch + .color-label {
+  background: #000;
+  color: #fff;
+}
+
 
   .variant-option--buttons {
     display: flex;
@@ -469,14 +577,32 @@
     width: 100%;
     margin: 0;
     cursor: pointer;
+    padding: 12px 16px;
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.4;
+    color: #000;
+    background-color: #fff;
+    border: 1px solid #000;
+    border-radius: 0;
+    cursor: pointer;
+    text-align: center;
   }
+
+  .variant-option__select-wrapper .divider {
+  width: 1px;
+  height: 100%;
+  background: #000;
+  position: absolute;
+  left: 87%;
+}
 
   .variant-option__select-wrapper .icon {
     position: absolute;
     right: var(--padding-md);
     top: 50%;
     transform: translateY(-50%);
-    width: var(--icon-size-2xs);
     height: var(--icon-size-2xs);
     pointer-events: none;
   }

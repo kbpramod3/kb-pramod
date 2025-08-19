@@ -11,88 +11,103 @@
 >
   {%- for product_option in product_resource.options_with_values -%}
     {%- liquid
-      assign swatch_count = product_option.values | map: 'swatch' | compact | size
-      assign variant_style = ''
+      assign option_name_downcase = product_option.name | downcase
 
-      if swatch_count > 0
+      if option_name_downcase == 'color'
         assign variant_style = 'swatch'
+      elsif option_name_downcase == 'size'
+        assign variant_style = 'dropdown'
       else
-        assign fieldset_id = section.id | append: '-' | append: product_resource.id | append: '-' | append: product_option.name | handleize
-        assign option_id_attribute = 'data-option-id="' | append: fieldset_id | append: '"'
-        assign longest_value = 0
+        assign swatch_count = product_option.values | map: 'swatch' | compact | size
+        if swatch_count > 0
+          assign variant_style = 'swatch'
+        else
+          assign variant_style = 'buttons'
+        endif
       endif
     -%}
 
-    <fieldset
-      class="variant-option variant-option--buttons {% if variant_style == 'swatch' %}variant-option--swatches{% endif %}"
-      {{ option_id_attribute }}
-    >
-      <legend>
-        {{ product_option.name | escape -}}
-        {%- if variant_style == 'swatch' and product_resource.options_with_values.size > 1 -%}
-          <span class="variant-option__swatch-value">{{ product_option.selected_value }}</span>
-        {%- endif %}
-      </legend>
-      {%- for product_option_value in product_option.values -%}
-        {% if product_option_value.size > longest_value and option_id_attribute %}
-          {% assign longest_value = product_option_value.size %}
-        {% endif %}
+    {%- if variant_style == 'swatch' or variant_style == 'buttons' -%}
+      <fieldset
+        class="variant-option variant-option--buttons {% if variant_style == 'swatch' %}variant-option--swatches{% endif %}"
+      >
+        <legend>
+          {{ product_option.name | escape -}}
+          {%- if variant_style == 'swatch' and product_resource.options_with_values.size > 1 -%}
+            <span class="variant-option__swatch-value">{{ product_option.selected_value }}</span>
+          {%- endif %}
+        </legend>
 
-        {% liquid
-          assign featured_media = product_option_value.variant.featured_media
+        {%- for product_option_value in product_option.values -%}
+          {% liquid
+            assign featured_media = product_option_value.variant.featured_media
 
-          # If the variant has no featured media, and we have a combined listing product, then fall back to using the
-          # featured media of the child product that is linked to this option value.
-          if featured_media == blank and product_option_value.product_url
-            assign featured_media = product_option_value.variant.product.featured_media
-          endif
-        %}
+            if featured_media == blank and product_option_value.product_url
+              assign featured_media = product_option_value.variant.product.featured_media
+            endif
+          %}
 
-        <label
-          data-media-id="{{ featured_media.id }}"
-          class="variant-option__button-label{% if variant_style == 'swatch' %} variant-option__button-label--has-swatch swatch-rounded{% endif %}"
-          {% if variant_style == 'swatch' %}
-            on:pointerenter="product-card/previewVariant/{{ featured_media.id }}"
-            on:pointerleave="product-card/resetVariant"
-          {% endif %}
-        >
-          <input
-            type="radio"
-            name="{{ product_option.name | escape }}-{{ block.id }}-{{ product_resource.id }}"
-            value="{{ product_option_value | escape }}"
-            aria-label="{{ product_option_value.name }}"
-            data-input-id="{{ product_option.position }}-{{ forloop.index0 }}"
-            data-option-value-id="{{ product_option_value.id }}"
-            data-option-media-id="{{ featured_media.id }}"
-            data-option-available="{{ product_option_value.available }}"
-            data-connected-product-url="{{ product_option_value.product_url }}"
-            form="{{ block.id }}"
-            {% if product_option_value.available == false %}
-              disabled
-            {% endif %}
-            {% if product_option_value.variant.id %}
-              data-variant-id="{{ product_option_value.variant.id }}"
-            {% endif %}
-            {% if product_option_value.selected %}
-              checked
+          <label
+            data-media-id="{{ featured_media.id }}"
+            class="variant-option__button-label{% if variant_style == 'swatch' %} variant-option__button-label--has-swatch swatch-rounded{% endif %}"
+            {% if variant_style == 'swatch' %}
+              on:pointerenter="product-card/previewVariant/{{ featured_media.id }}"
+              on:pointerleave="product-card/resetVariant"
             {% endif %}
           >
-          {% if variant_style == 'swatch' %}
-            {% render 'swatch', swatch: product_option_value.swatch, variant_image: featured_media %}
-          {% else %}
-            <span>{{ product_option_value | escape }}</span>
-          {% endif %}
-          {% render 'strikethrough-variant', product_option: product_option_value %}
-        </label>
-      {%- endfor -%}
-      {% if option_id_attribute %}
-        {% style %}
-          [data-option-id="{{ fieldset_id }}"] {
-            --variant-ch: {{ longest_value }}ch;
-          }
-        {% endstyle %}
-      {% endif %}
-    </fieldset>
+            <input
+              type="radio"
+              name="{{ product_option.name | escape }}-{{ product_resource.id }}"
+              value="{{ product_option_value | escape }}"
+              aria-label="{{ product_option_value.name }}"
+              data-input-id="{{ product_option.position }}-{{ forloop.index0 }}"
+              data-option-value-id="{{ product_option_value.id }}"
+              data-option-media-id="{{ featured_media.id }}"
+              data-option-available="{{ product_option_value.available }}"
+              data-connected-product-url="{{ product_option_value.product_url }}"
+              form="{{ block.id }}"
+              {% if product_option_value.available == false %}disabled{% endif %}
+              {% if product_option_value.variant.id %}data-variant-id="{{ product_option_value.variant.id }}"{% endif %}
+              {% if product_option_value.selected %}checked{% endif %}
+            >
+            {% if variant_style == 'swatch' %}
+              {% render 'swatch', swatch: product_option_value.swatch, variant_image: featured_media %}
+            {% else %}
+              <span>{{ product_option_value | escape }}</span>
+            {% endif %}
+            {% render 'strikethrough-variant', product_option: product_option_value %}
+          </label>
+        {%- endfor -%}
+      </fieldset>
+
+    {%- elsif variant_style == 'dropdown' -%}
+      <div class="variant-option variant-option--dropdowns">
+        <label for="Option-{{ product_resource.id }}-{{ forloop.index0 }}">{{ product_option.name | escape }}</label>
+        <select
+          id="Option-{{ product_resource.id }}-{{ forloop.index0 }}"
+          name="options[{{ product_option.name | escape }}]"
+          class="variant-option__select"
+          form="{{ block.id }}"
+        >
+          {%- for product_option_value in product_option.values -%}
+            <option
+              value="{{ product_option_value | escape }}"
+              data-option-value-id="{{ product_option_value.id }}"
+              {% if product_option_value.variant.id %}data-variant-id="{{ product_option_value.variant.id }}"{% endif %}
+              data-connected-product-url="{{ product_option_value.product_url }}"
+              {% if product_option_value.selected %}selected{% endif %}
+              {% unless product_option_value.available %}disabled{% endunless %}
+            >
+              {% if product_option_value.available == false %}
+                {{ product_option_value | escape }} - {{ 'content.unavailable' | t }}
+              {% else %}
+                {{ product_option_value | escape }}
+              {% endif %}
+            </option>
+          {%- endfor -%}
+        </select>
+      </div>
+    {%- endif -%}
   {%- endfor -%}
 
   <script type="application/json">

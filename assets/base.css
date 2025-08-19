@@ -1286,7 +1286,7 @@ button.shopify-payment-button__button--unbranded {
   font-family: var(--button-font-family-primary);
   font-weight: var(--button-font-weight-primary);
   text-transform: var(--button-text-case-primary);
-  border-radius: var(--style-border-radius-buttons-primary);
+  /* border-radius: var(--style-border-radius-buttons-primary); */
 }
 
 .button:not(.button-secondary, .button-unstyled) {
@@ -2625,6 +2625,7 @@ product-price.text-block:is(.h1, .h2, .h3, .h4, .h5, .h6) > *:not(.tax-note) {
 
 .product-details .quantity-selector {
   border-radius: var(--style-border-radius-buttons-primary);
+  display: none;
 }
 
 .product-details .quantity-selector .quantity-minus {
