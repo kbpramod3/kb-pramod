@@ -657,7 +657,7 @@
             "label": "184px"
           }
         ],
-        "default": "48"
+        "default": "20"
       },
       {
         "type": "select",
@@ -817,7 +817,7 @@
             "label": "184px"
           }
         ],
-        "default": "36"
+        "default": "18"
       },
       {
         "type": "select",
@@ -973,7 +973,7 @@
             "label": "184px"
           }
         ],
-        "default": "20"
+        "default": "14"
       },
       {
         "type": "select",
@@ -1097,6 +1097,10 @@
             "label": "32px"
           },
           {
+            "value": "36",
+            "label": "36px"
+          },
+          {
             "value": "40",
             "label": "40px"
           },
@@ -1129,7 +1133,7 @@
             "label": "184px"
           }
         ],
-        "default": "18"
+        "default": "36"
       },
       {
         "type": "select",
@@ -1285,7 +1289,7 @@
             "label": "184px"
           }
         ],
-        "default": "14"
+        "default": "16"
       },
       {
         "type": "select",
