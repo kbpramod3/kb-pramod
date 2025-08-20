@@ -69,6 +69,7 @@ export class QuickAddComponent extends Component {
       const html = await this.fetchProductPage(currentUrl);
       if (html) {
         const gridElement = html.querySelector('[data-product-grid-content]');
+        console.log('gridElement:', gridElement);
         if (gridElement) {
           // Cache the cloned element to avoid modifying the original
           productGrid = /** @type {Element} */ (gridElement.cloneNode(true));
@@ -152,39 +153,40 @@ export class QuickAddComponent extends Component {
    * @param {Element} productGrid - The product grid element
    */
   async updateQuickAddModal(productGrid) {
-    const modalContent = document.getElementById('quick-add-modal-content');
+  const modalContent = document.getElementById('quick-add-modal-content');
+  if (!productGrid || !modalContent) return;
 
-    if (!productGrid || !modalContent) return;
+  if (isMobileBreakpoint()) {
+    const productDetails = productGrid.querySelector('.product-details');
+    const productMedia = productGrid.querySelector('.product-media');
+    const productFormComponent = productGrid.querySelector('product-form-component');
+    const variantPicker = productGrid.querySelector('variant-picker');
 
-    if (isMobileBreakpoint()) {
-      const productDetails = productGrid.querySelector('.product-details');
-      if (!productDetails) return;
-      const productFormComponent = productGrid.querySelector('product-form-component');
-      const variantPicker = productGrid.querySelector('variant-picker');
-      const productPrice = productGrid.querySelector('product-price');
-      const productTitle = document.createElement('a');
-      productTitle.textContent = this.dataset.productTitle || '';
+    if (!productDetails || !productMedia || !productFormComponent || !variantPicker) return;
 
-      // Make product title as a link to the product page
-      productTitle.href = this.productPageUrl;
+    // --- Header: keep your exact design (media + product-details) ---
+    const productHeader = document.createElement('div');
+    productHeader.classList.add('product-header');
+    productHeader.appendChild(productMedia);    // already styled
+    productHeader.appendChild(productDetails);  // already contains title, price, description
 
-      if (!productFormComponent || !variantPicker || !productPrice || !productTitle) return;
+    // --- Bottom: variant picker + form ---
+    const productBottom = document.createElement('div');
+    productBottom.classList.add('product-bottom');
+    productBottom.appendChild(variantPicker);
+    productBottom.appendChild(productFormComponent);
 
-      const productHeader = document.createElement('div');
-      productHeader.classList.add('product-header');
-
-      productHeader.appendChild(productTitle);
-      productHeader.appendChild(productPrice);
-      productGrid.appendChild(productHeader);
-      productGrid.appendChild(variantPicker);
-      productGrid.appendChild(productFormComponent);
-      productDetails.remove();
-    }
-
-    morph(modalContent, productGrid);
-
-    this.#syncVariantSelection(modalContent);
+    // --- Reset productGrid and append in right order ---
+    productGrid.innerHTML = '';
+    productGrid.appendChild(productHeader);
+    productGrid.appendChild(productBottom);
   }
+
+  morph(modalContent, productGrid);
+  this.#syncVariantSelection(modalContent);
+}
+
+
 
   /**
    * Syncs the variant selection from the product card to the modal
