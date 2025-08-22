@@ -137,7 +137,9 @@
                         "padding-block-start": 0,
                         "padding-block-end": 0,
                         "padding-inline-start": 0,
-                        "padding-inline-end": 0
+                        "padding-inline-end": 0,
+                        "quick_add_offset_vertical": 0,
+                        "quick_add_offset_horizontal": 0
                       },
                       "blocks": {}
                     }
@@ -251,18 +253,6 @@
                 "product_card_iGdAdh"
               ]
             },
-            "divider_VJhene": {
-              "type": "_divider",
-              "name": "t:names.divider",
-              "settings": {
-                "thickness": 1,
-                "corner_radius": "square",
-                "width_percent": 100,
-                "padding-block-start": 0,
-                "padding-block-end": 0
-              },
-              "blocks": {}
-            },
             "variant_picker_R3rGDr": {
               "type": "variant-picker",
               "settings": {
@@ -316,7 +306,6 @@
           },
           "block_order": [
             "group_FR9piL",
-            "divider_VJhene",
             "variant_picker_R3rGDr",
             "buy_buttons_eYQEYi"
           ]
@@ -392,7 +381,9 @@
                 "padding-block-start": 0,
                 "padding-block-end": 0,
                 "padding-inline-start": 0,
-                "padding-inline-end": 0
+                "padding-inline-end": 0,
+                "quick_add_offset_vertical": 0,
+                "quick_add_offset_horizontal": 0
               },
               "blocks": {}
             },
