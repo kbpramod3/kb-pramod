@@ -15,7 +15,17 @@
   {% unless closest.product == blank %}
     {% render 'product-card-badges', product: closest.product %}
     {%  if settings.quick_add or settings.mobile_quick_add %}
-      {% render 'quick-add', product: closest.product, section_id: section.id %}
+      <div
+    class="quick-add-wrapper"
+    style="
+      position: absolute;
+      top: {{ block.settings.quick_add_offset_vertical }}%;
+      left: {{ block.settings.quick_add_offset_horizontal }}%;
+      transform: translate(-50%, -50%);
+    "
+  >
+    {% render 'quick-add', product: closest.product, section_id: section.id %}
+  </div>
     {% endif %}
   {% endunless %}
 {% endcapture %}
@@ -165,7 +175,32 @@
       "step": 1,
       "unit": "px",
       "default": 0
+    },
+    {
+      "type" : "header",
+      "content" : "t:settings.quick_add"
+    },
+    {
+      "type": "range",
+      "id": "quick_add_offset_vertical",
+      "label": "Vertical offset",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "quick_add_offset_horizontal",
+      "label": "Horizontal offset",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "default": 0
     }
+
   ],
   "presets": [
     {

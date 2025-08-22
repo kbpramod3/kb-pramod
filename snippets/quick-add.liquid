@@ -119,11 +119,11 @@
             <span
               class="svg-wrapper add-to-cart-icon"
             >
-              {{- 'icon-add-to-cart.svg' | inline_asset_content -}}
+              {{- 'icon-add.svg' | inline_asset_content -}}
             </span>
-            <span class="add-to-cart-text__content is-visually-hidden-mobile">
+            {% comment %} <span class="add-to-cart-text__content is-visually-hidden-mobile">
               {{ add_to_cart_text }}
-            </span>
+            </span> {% endcomment %}
           </span>
         </button>
       {%- endif -%}
@@ -141,7 +141,9 @@
     --quick-add-left: calc(var(--quick-add-offset) + var(--padding-inline-end));
 
     position: absolute;
-    display: var(--quick-add-mobile-display, none);
+    display: flex !important;
+    pointer-events: auto !important;
+    opacity: 1 !important;
     flex-direction: column;
     justify-content: flex-end;
     inset: max(var(--quick-add-top), calc((var(--border-radius) + var(--quick-add-top)) * (1 - cos(45deg))))
@@ -171,7 +173,7 @@
 
   .quick-add__button {
     display: grid;
-    padding: var(--padding-xs);
+    padding: 0px;
     align-items: center;
     background-color: var(--color-background);
     color: var(--color-foreground);
@@ -179,12 +181,11 @@
     box-shadow: var(--shadow-popover);
     pointer-events: all;
     position: relative;
-    overflow: hidden;
     border-radius: 100px;
 
     @media screen and (min-width: 750px) {
-      display: none;
-      padding: var(--padding-xs) var(--padding-sm);
+      display: grid !important;
+      padding: 0px;
     }
 
     .quick-add[stay-visible] & {

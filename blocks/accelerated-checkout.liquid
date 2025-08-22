@@ -20,6 +20,7 @@
 
 <div
   class="accelerated-checkout-block"
+  style="display: none;"
   ref="acceleratedCheckoutButtonContainer"
   {{ block.shopify_attributes }}
   {% if request.visual_preview_mode %}
@@ -36,6 +37,7 @@
 
 {% stylesheet %}
   .accelerated-checkout-block[data-shopify-visual-preview] {
+    display: none;
     width: 300px;
   }
 

@@ -10,6 +10,10 @@ body {
   margin: 0;
   min-height: 100svh;
   font-variation-settings: 'slnt' 0;
+  font-family: "Jost", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 18px;
 }
 
 :root {
@@ -391,7 +395,7 @@ p:empty {
 
 /* Make the actual section background transparent, and instead apply it to a separate sibling element to enable stacking with hero shadow  */
 .shopify-section:not(.header-section) :is(.section, .cart__summary-container) {
-  background: transparent;
+  
 }
 
 .shopify-section:not(.header-section):has(.section) {
@@ -1340,6 +1344,7 @@ button.shopify-payment-button__button--unbranded {
   --button-background-color: var(--color-primary-button-background);
   --button-border-color: var(--color-primary-button-border);
   --button-border-width: var(--style-border-width-primary);
+  --button-hover-background-color: var(--color-primary-button-hover-background);
 }
 
 .button:hover,
@@ -1354,6 +1359,7 @@ button.shopify-payment-button__button--unbranded:hover:not([disabled]) {
   --button-background-color: var(--color-secondary-button-background);
   --button-border-color: var(--color-secondary-button-border);
   --button-border-width: var(--style-border-width-secondary);
+  --button-hover-background-color: var(--color-secondary-button-hover-background);
 }
 
 .button-secondary:hover {
@@ -2625,6 +2631,7 @@ product-price.text-block:is(.h1, .h2, .h3, .h4, .h5, .h6) > *:not(.tax-note) {
 
 .product-details .quantity-selector {
   border-radius: var(--style-border-radius-buttons-primary);
+  display: none;
 }
 
 .product-details .quantity-selector .quantity-minus {

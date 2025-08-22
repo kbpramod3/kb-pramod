@@ -1,0 +1,106 @@
+{% render 'custom-button', link: block.settings.link, block: block %}
+
+{% schema %}
+{
+  "name": "Custom Button",
+  "tag": null,
+  "settings": [
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Button Text",
+      "default": "Shop Now"
+    },
+    {
+      "type": "url",
+      "id": "link",
+      "label": "Button Link",
+      "default": "/collections/all"
+    },
+    {
+      "type": "checkbox",
+      "id": "open_in_new_tab",
+      "label": "Open in new tab",
+      "default": false
+    },
+    {
+        "type": "select",
+        "id": "style_class",
+        "label": "Button Style",
+        "options": [
+            { "value": "primary", "label": "Primary" },
+            { "value": "secondary", "label": "Secondary" }
+        ],
+        "default": "primary"
+    },
+    {
+      "type": "header",
+      "content": "Size Options"
+    },
+    {
+      "type": "select",
+      "id": "width",
+      "label": "Width (Desktop)",
+      "options": [
+        {
+          "value": "fit-content",
+          "label": "Fit content"
+        },
+        {
+          "value": "custom",
+          "label": "Custom"
+        }
+      ],
+      "default": "fit-content"
+    },
+    {
+      "type": "range",
+      "id": "custom_width",
+      "label": "Custom Width (Desktop)",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "default": 100,
+      "visible_if": "{{ block.settings.width == \"custom\" }}"
+    },
+    {
+      "type": "select",
+      "id": "width_mobile",
+      "label": "Width (Mobile)",
+      "options": [
+        {
+          "value": "fit-content",
+          "label": "Fit content"
+        },
+        {
+          "value": "custom",
+          "label": "Custom"
+        }
+      ],
+      "default": "fit-content"
+    },
+    {
+      "type": "range",
+      "id": "custom_width_mobile",
+      "label": "Custom Width (Mobile)",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "default": 100,
+      "visible_if": "{{ block.settings.width_mobile == \"custom\" }}"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom Button",
+      "category": "Basic",
+      "settings": {
+        "link": "shopify://collections/all",
+        "label": "Shop Now"
+      }
+    }
+  ]
+}
+{% endschema %}
