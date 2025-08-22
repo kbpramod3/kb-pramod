@@ -395,7 +395,7 @@ p:empty {
 
 /* Make the actual section background transparent, and instead apply it to a separate sibling element to enable stacking with hero shadow  */
 .shopify-section:not(.header-section) :is(.section, .cart__summary-container) {
-  background: transparent;
+  
 }
 
 .shopify-section:not(.header-section):has(.section) {
@@ -1290,7 +1290,7 @@ button.shopify-payment-button__button--unbranded {
   font-family: var(--button-font-family-primary);
   font-weight: var(--button-font-weight-primary);
   text-transform: var(--button-text-case-primary);
-  /* border-radius: var(--style-border-radius-buttons-primary); */
+  border-radius: var(--style-border-radius-buttons-primary);
 }
 
 .button:not(.button-secondary, .button-unstyled) {
@@ -1344,6 +1344,7 @@ button.shopify-payment-button__button--unbranded {
   --button-background-color: var(--color-primary-button-background);
   --button-border-color: var(--color-primary-button-border);
   --button-border-width: var(--style-border-width-primary);
+  --button-hover-background-color: var(--color-primary-button-hover-background);
 }
 
 .button:hover,
@@ -1358,6 +1359,7 @@ button.shopify-payment-button__button--unbranded:hover:not([disabled]) {
   --button-background-color: var(--color-secondary-button-background);
   --button-border-color: var(--color-secondary-button-border);
   --button-border-width: var(--style-border-width-secondary);
+  --button-hover-background-color: var(--color-secondary-button-hover-background);
 }
 
 .button-secondary:hover {

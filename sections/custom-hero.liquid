@@ -55,6 +55,15 @@
     </div>
 
   </div>
+  
+  {% if section.settings.extra_text %}
+    <div class="custom-hero__extra">
+      <div class="custom-hero__extra-inner">
+        {{ section.settings.extra_text }}
+      </div>
+    </div>
+  {% endif %}
+
 </div>
 
 
@@ -159,6 +168,14 @@
       "label": "t:settings.video",
       "visible_if": "{{ section.settings.media_type_2 == 'video' }}"
     },
+    {
+
+  "type": "text",
+        "id": "extra_text",
+        "label": "note",
+  
+      "default": "<p>SUSTAINABLE, ETHICALLY MADE CLOTHES IN SIZES XXS TO 6XL</p>"
+},
     {
       "type": "header",
       "content": "t:content.section_link"
@@ -565,6 +582,7 @@
   display: flex;
   flex-wrap: wrap;
   width: 100%;
+  margin: 0px 30px;
 }
 
 .hero__content-wrapper,
@@ -580,5 +598,22 @@
   object-fit: cover;
   display: block;
 }
+
+.custom-hero__extra {
+  background-color: #F5F5F5;
+  padding: 10px 6px;
+  text-align: center;
+}
+
+.custom-hero__extra-inner {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.custom-hero__extra p {
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
 
 {% endstylesheet %}
