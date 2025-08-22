@@ -69,26 +69,11 @@
             "label": "Shop Now",
             "link": "shopify://collections/all",
             "open_in_new_tab": false,
-            "style_class": "primary",
+            "style_class": "secondary",
             "width": "fit-content",
             "custom_width": 100,
             "width_mobile": "fit-content",
             "custom_width_mobile": 100
-          },
-          "blocks": {}
-        },
-        "button_F6nkx9": {
-          "type": "button",
-          "name": "t:names.button",
-          "settings": {
-            "label": "Shop now ----->",
-            "link": "shopify://collections/all",
-            "open_in_new_tab": false,
-            "style_class": "button",
-            "width": "custom",
-            "custom_width": 40,
-            "width_mobile": "custom",
-            "custom_width_mobile": 40
           },
           "blocks": {}
         }
@@ -96,13 +81,13 @@
       "block_order": [
         "text_EjXj9J",
         "text_nFUikc",
-        "custom_button_MCUKDN",
-        "button_F6nkx9"
+        "custom_button_MCUKDN"
       ],
       "name": "Custom Hero",
       "settings": {
         "media_type_1": "image",
         "media_type_2": "image",
+        "extra_text": "SUSTAINABLE, ETHICALLY MADE CLOTHES IN SIZES XXS TO 6XL",
         "link": "",
         "open_in_new_tab": false,
         "content_direction": "column",
@@ -213,7 +198,7 @@
             "padding-inline-end": 0
           },
           "blocks": {
-            "product_card_gallery_cUDRCk": {
+            "product_card_gallery_dEzrkh": {
               "type": "_product-card-gallery",
               "name": "t:names.product_card_media",
               "settings": {
@@ -225,13 +210,15 @@
                 "padding-block-start": 0,
                 "padding-block-end": 0,
                 "padding-inline-start": 0,
-                "padding-inline-end": 0
+                "padding-inline-end": 0,
+                "quick_add_offset_vertical": 63,
+                "quick_add_offset_horizontal": 52
               },
               "blocks": {}
             }
           },
           "block_order": [
-            "product_card_gallery_cUDRCk"
+            "product_card_gallery_dEzrkh"
           ]
         }
       },
